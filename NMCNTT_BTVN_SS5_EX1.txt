@@ -1,0 +1,56 @@
+PHẦN 1 
+Lỗi 1: Tạo thư mục có khoảng trắng
+Nam dùng:
+mkdir Shopee Projects
+Sai vì Shopee Projects có khoảng trắng nên PowerShell hiểu Shopee và Projects là các đối số khác nhau.
+Cách sửa:
+mkdir "Shopee Projects"
+→ Phải đặt tên có khoảng trắng trong dấu ngoặc kép.
+Lỗi 2: Di chuyển vào thư mục có khoảng trắng
+Nam dùng:
+cd Shopee Projects
+Sai vì PowerShell không hiểu toàn bộ Shopee Projects là một đường dẫn duy nhất.
+Cách sửa:
+cd "Shopee Projects"
+Lỗi này dẫn đến thông báo kiểu:
+Cannot find path '...' because it does not exist.
+Lỗi 3: Lệnh sao chép src không tìm thấy
+Nam dùng:
+Copy-Item src -Destination src-backup -Recurse
+Lệnh này về cú pháp cơ bản là đúng, nhưng trước đó Nam chưa vào được thư mục Shopee Projects, nên src không tồn tại tại vị trí hiện tại.
+Do đó PowerShell báo:
+Cannot find path '...' because it does not exist.
+Cách sửa: phải tạo/đi vào đúng thư mục project trước rồi mới thao tác với src.
+Lỗi 4: Lệnh mkdir src\assets\images phụ thuộc vào thư mục hiện tại
+mkdir src\assets\images
+Lệnh này chỉ đúng khi đang đứng trong:
+C:\Users\Student\Shopee Projects
+Nếu lệnh cd "Shopee Projects" trước đó bị lỗi thì đường dẫn src\assets\images cũng sẽ được tìm từ sai vị trí.
+PHẦN 2 
+Có thể hoàn thành toàn bộ thao tác trong đúng 3 dòng lệnh PowerShell như sau:
+mkdir "Shopee Projects"; cd "Shopee Projects"
+mkdir src\assets\images
+Copy-Item src -Destination src-backup -Recurse
+Giải thích:
+Dòng 1:
+mkdir "Shopee Projects"; cd "Shopee Projects"
+→ Tạo thư mục Shopee Projects rồi di chuyển vào thư mục đó.
+Dòng 2:
+mkdir src\assets\images
+→ Tạo cấu trúc:
+Shopee Projects
+└── src
+    └── assets
+        └── images
+Dòng 3:
+Copy-Item src -Destination src-backup -Recurse
+→ Sao chép toàn bộ thư mục src và nội dung bên trong thành src-backup.
+Kết quả cuối:
+Shopee Projects
+├── src
+│   └── assets
+│       └── images
+└── src-backup
+    └── assets
+        └── images
+ -Recurse là tham số để sao chép toàn bộ thư mục con trong PowerShell.
